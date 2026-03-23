@@ -15,6 +15,7 @@ import 'screens/log_sleep_screen.dart';
 import 'screens/sleep_detail_screen.dart';
 import 'screens/reminders_screen.dart';
 import 'models/sleep_record.dart';
+import 'providers/tracking_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
@@ -41,7 +42,9 @@ Future<void> main() async {
     anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
 
-  runApp(const ProviderScope(child: SleepTrackerApp()));
+  runApp(
+    const ProviderScope(child: SleepTrackerApp()),
+  );
 }
 
 final _router = GoRouter(
@@ -80,11 +83,15 @@ final _router = GoRouter(
   ],
 );
 
-class SleepTrackerApp extends StatelessWidget {
+class SleepTrackerApp extends ConsumerWidget {
   const SleepTrackerApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // App 启动时立即读取 trackingProvider，触发内部的 _restore()
+    // 这样即使用户直接去首页，睡眠状态也已经从磁盘恢复了
+    ref.watch(trackingProvider);
+
     return MaterialApp.router(
       title: '睡眠精灵',
       theme: AppTheme.darkTheme,
@@ -201,3 +208,4 @@ class _NavItem extends StatelessWidget {
     );
   }
 }
+
