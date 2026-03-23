@@ -1,0 +1,44 @@
+# android/app/src/main/AndroidManifest.xml — 需要添加的权限
+# 将以下权限添加到 <manifest> 标签内
+
+ANDROID_PERMISSIONS = """
+<!-- 通知权限 (Android 13+) -->
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+<!-- 精确闹钟 -->
+<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+<uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
+
+<!-- 传感器 -->
+<uses-permission android:name="android.permission.BODY_SENSORS"/>
+<uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+
+<!-- 保持唤醒（睡眠追踪期间） -->
+<uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+<!-- 前台服务（后台追踪） -->
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE_HEALTH"/>
+
+<!-- 网络 -->
+<uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+"""
+
+# ios/Runner/Info.plist — 需要添加的权限描述
+IOS_PLIST = """
+<key>NSMotionUsageDescription</key>
+<string>睡眠精灵需要访问运动传感器来检测你的睡眠阶段</string>
+
+<key>NSHealthUpdateUsageDescription</key>
+<string>睡眠精灵将写入睡眠数据到健康应用</string>
+
+<key>NSHealthShareUsageDescription</key>
+<string>睡眠精灵需要读取心率数据来分析睡眠质量</string>
+
+<key>UIBackgroundModes</key>
+<array>
+    <string>fetch</string>
+    <string>processing</string>
+</array>
+"""
